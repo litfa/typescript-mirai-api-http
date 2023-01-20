@@ -5,6 +5,12 @@
   "repository": "git@github.com:litfa/typescript-mirai-api-http.git",
   "author": "ltfei <ltfei@ltfei.cn>",
   "license": "MIT",
+  "scripts": {
+    "start": "ts-node ./src/app.ts",
+    "dev": "nodemon src/app.ts",
+    "dev:dev": "code .|wt -d ./|yarn dev",
+    "build": "tsc"
+  },
   "devDependencies": {
     "@types/ws": "^8.5.4",
     "@typescript-eslint/eslint-plugin": "^5.48.2",
