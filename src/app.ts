@@ -4,6 +4,8 @@ import type { Message } from './types/MessageType'
 import type * as MessageChainType from './types/MessageChainType'
 import type * as MessageType from './types/MessageChainType'
 
+type Data = { syncId: number; data: Message }
+
 const CreateMiraiApi = (host: string, port: number, verifyKey: string, qq: number) => {
   const ws = new WebSocket(`ws://${host}:${port}/all?verifyKey=${verifyKey}&qq=${qq}`)
 
@@ -45,7 +47,7 @@ const CreateMiraiApi = (host: string, port: number, verifyKey: string, qq: numbe
     })
   }
 
-  const onMessage = (data: (data: Message) => void) => {
+  const onMessage = (data: (data: Data) => void) => {
     ws.on('message', (e) => {
       try {
         // @ts-ignore
@@ -57,17 +59,17 @@ const CreateMiraiApi = (host: string, port: number, verifyKey: string, qq: numbe
     })
   }
 
-  const onGroupMessage = (group: number, data: (data: Message) => void) => {
+  const onGroupMessage = (group: number, data: (data: Data) => void) => {
     onMessage((message) => {
-      if (message.type == 'GroupMessage' && message.sender.group.id == group) {
+      if (message.data.type == 'GroupMessage' && message.data.sender.group.id == group) {
         data(message)
       }
     })
   }
 
-  const onFriendMessage = (qq: number, data: (data: Message) => void) => {
+  const onFriendMessage = (qq: number, data: (data: Data) => void) => {
     onMessage((message) => {
-      if (message.type == 'FriendMessage' && message.sender.id == qq) {
+      if (message.data.type == 'FriendMessage' && message.data.sender.id == qq) {
         data(message)
       }
     })
