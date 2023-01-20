@@ -1,6 +1,6 @@
 {
   "name": "typescript-mirai-api-http",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "main": "dist/app.js",
   "repository": "git@github.com:litfa/typescript-mirai-api-http.git",
   "author": "ltfei <ltfei@ltfei.cn>",
@@ -9,7 +9,8 @@
     "start": "ts-node ./src/app.ts",
     "dev": "nodemon src/app.ts",
     "dev:dev": "code .|wt -d ./|yarn dev",
-    "build": "tsc"
+    "build": "tsc",
+    "publish": "yarn build | npm publish"
   },
   "devDependencies": {
     "@types/ws": "^8.5.4",
