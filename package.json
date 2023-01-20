@@ -1,6 +1,6 @@
 {
   "name": "typescript-mirai-api-http",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "main": "dist/app.js",
   "repository": "git@github.com:litfa/typescript-mirai-api-http.git",
   "author": "ltfei <ltfei@ltfei.cn>",
