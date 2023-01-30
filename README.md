@@ -2,11 +2,11 @@
 
 ## 安装
 ``` shell
-npm install dayjs
+npm install typescript-mirai-api-http
 ```
 使用yarn
 ``` shell
-yarn add dayjs
+yarn add typescript-mirai-api-http
 ```
 
 ## 使用
