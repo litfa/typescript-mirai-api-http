@@ -59,18 +59,30 @@ const CreateMiraiApi = (host: string, port: number, verifyKey: string, qq: numbe
     })
   }
 
-  const onGroupMessage = (group: number, data: (data: Data) => void) => {
+  const onGroupMessage = (data: (data: Data) => void, group?: number) => {
     onMessage((message) => {
-      if (message.data.type == 'GroupMessage' && message.data.sender.group.id == group) {
-        data(message)
+      if (message.data.type == 'GroupMessage') {
+        if (group) {
+          if (group == message.data.sender.group.id) {
+            data(message)
+          }
+        } else {
+          data(message)
+        }
       }
     })
   }
 
-  const onFriendMessage = (qq: number, data: (data: Data) => void) => {
+  const onFriendMessage = (data: (data: Data) => void, qq?: number) => {
     onMessage((message) => {
-      if (message.data.type == 'FriendMessage' && message.data.sender.id == qq) {
-        data(message)
+      if (message.data.type == 'FriendMessage') {
+        if (qq) {
+          if (message.data.sender.id == qq) {
+            data(message)
+          }
+        } else {
+          data(message)
+        }
       }
     })
   }
