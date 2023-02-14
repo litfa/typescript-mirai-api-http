@@ -32,20 +32,34 @@ onMessage((message) => {
 })
 ```
 
-#### onGroupMessage(待完善)
-接收群消息
+#### onGroupMessage
+接收所有群消息
 ``` js
 onGroupMessage((message) => {
   console.log(message)
 })
 ```
+接收单个群消息  
+在第二个参数传入群号
+``` js
+onGroupMessage((message) => {
+  console.log(message)
+}, 123456)
+```
 
-#### onFriendMessage(待完善)
-接收好友消息
+#### onFriendMessage
+接收所有好友消息
 ``` js
 onFriendMessage((message) => {
   console.log(message)
 })
+```
+接收单个好友消息  
+在第二个参数传入qq号
+``` js
+onFriendMessage((message) => {
+  console.log(message)
+}, 123456)
 ```
 
 ### 发送消息
