@@ -3,11 +3,49 @@ import type { MessageChain } from './types/MessageChainType'
 import type { Message } from './types/MessageType'
 import type * as MessageChainType from './types/MessageChainType'
 import type * as MessageType from './types/MessageChainType'
+import { EventBus } from './utils/eventBus'
 
-type Data = { syncId: number; data: Message }
+const CreateMiraiApi = (
+  host: string,
+  port: number,
+  verifyKey: string,
+  qq: number,
+  retryInterval: number | false = 5000
+) => {
+  const { emit, on } = EventBus()
+  type Data = { syncId: number; data: Message }
+  let ws: WebSocket
+  // 连接 ws
+  const connect = () => {
+    ws = new WebSocket(`ws://${host}:${port}/all?verifyKey=${verifyKey}&qq=${qq}`)
+    ws.addEventListener('close', () => {
+      emit('close')
+      retry()
+    })
+    ws.addEventListener('error', (err) => {
+      emit('error')
+      retry()
+    })
+    ws.addEventListener('message', (data) => {
+      emit('message', data)
+    })
+    ws.addEventListener('open', (data) => {
+      emit('open', data)
+    })
+  }
+  connect()
 
-const CreateMiraiApi = (host: string, port: number, verifyKey: string, qq: number) => {
-  const ws = new WebSocket(`ws://${host}:${port}/all?verifyKey=${verifyKey}&qq=${qq}`)
+  // 重连
+  const retry = () => {
+    if (retryInterval === -1 || retryInterval === false) {
+      return
+    }
+    // 重连之前 清除所有监听
+    ws?.removeAllListeners()
+    setTimeout(() => {
+      connect()
+    }, retryInterval)
+  }
 
   const send = (json: object) => {
     if (typeof json == 'object') {
@@ -47,14 +85,14 @@ const CreateMiraiApi = (host: string, port: number, verifyKey: string, qq: numbe
     })
   }
 
-  const onMessage = (data: (data: Data) => void) => {
-    ws.on('message', (e) => {
+  type Callback<T> = (data: T) => void
+
+  const onMessage = (callback: Callback<Data>) => {
+    on('message', (message) => {
       try {
-        // @ts-ignore
-        const message = JSON.parse(e)
-        data(message)
+        callback(JSON.parse(message.data))
       } catch (e) {
-        console.log(e)
+        console.log('接收到非json格式数据', message, e)
       }
     })
   }
