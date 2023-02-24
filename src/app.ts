@@ -2,7 +2,7 @@ import WebSocket from 'ws'
 import type { MessageChain } from './types/MessageChainType'
 import type { Message } from './types/MessageType'
 import type * as MessageChainType from './types/MessageChainType'
-import type * as MessageType from './types/MessageChainType'
+import type * as MessageType from './types/MessageType'
 import { EventBus } from './utils/eventBus'
 
 const CreateMiraiApi = (
