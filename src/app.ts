@@ -18,12 +18,12 @@ const CreateMiraiApi = (
   // 连接 ws
   const connect = () => {
     ws = new WebSocket(`ws://${host}:${port}/all?verifyKey=${verifyKey}&qq=${qq}`)
-    ws.addEventListener('close', () => {
-      emit('close')
+    ws.addEventListener('close', (data) => {
+      emit('close', data)
       retry()
     })
-    ws.addEventListener('error', (err) => {
-      emit('error')
+    ws.addEventListener('error', (data) => {
+      emit('error', data)
       retry()
     })
     ws.addEventListener('message', (data) => {
@@ -87,6 +87,29 @@ const CreateMiraiApi = (
 
   type Callback<T> = (data: T) => void
 
+  // ws事件
+  const close = (callback: Callback<WebSocket.CloseEvent>) => {
+    on('close', (data) => {
+      callback(data)
+    })
+  }
+  const error = (callback: Callback<WebSocket.ErrorEvent>) => {
+    on('error', (data) => {
+      callback(data)
+    })
+  }
+  const message = (callback: Callback<WebSocket.MessageEvent>) => {
+    on('message', (data) => {
+      callback(data)
+    })
+  }
+  const open = (callback: Callback<WebSocket.Event>) => {
+    on('open', (data) => {
+      callback(data)
+    })
+  }
+
+  // bot消息事件
   const onMessage = (callback: Callback<Data>) => {
     on('message', (message) => {
       try {
@@ -130,6 +153,10 @@ const CreateMiraiApi = (
     send,
     sendGroupMessage,
     sendFriendMessage,
+    close,
+    error,
+    message,
+    open,
     onMessage,
     onGroupMessage,
     onFriendMessage
