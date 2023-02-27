@@ -2,6 +2,7 @@ import WebSocket from 'ws'
 import type { MessageChain } from './types/MessageChainType'
 import type { Message } from './types/MessageType'
 import type * as MessageChainType from './types/MessageChainType'
+import type * as CommonType from './types/Common'
 import type * as MessageType from './types/MessageType'
 import { EventBus } from './utils/eventBus'
 
@@ -164,4 +165,4 @@ const CreateMiraiApi = (
 }
 
 export { CreateMiraiApi }
-export type { MessageChainType, MessageType }
+export type { MessageChainType, MessageType, CommonType }

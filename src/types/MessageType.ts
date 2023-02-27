@@ -3,49 +3,29 @@
  */
 
 import { MessageChain } from './MessageChainType'
-
-export interface Sender {
-  id: number
-  nickname: string
-  remark: string
-}
+import { GroupMember, Friend } from './Common'
 
 export interface FriendMessage {
   type: 'FriendMessage'
-  sender: Sender
+  sender: Friend
   messageChain: MessageChain[]
-}
-
-export interface GroupMessageSender {
-  id: number
-  memberName: string
-  specialTitle: string
-  permission: string
-  joinTimestamp: number
-  lastSpeakTimestamp: number
-  muteTimeRemaining: number
-  group: {
-    id: number
-    name: string
-    permission: string
-  }
 }
 
 export interface GroupMessage {
   type: 'GroupMessage'
-  sender: GroupMessageSender
+  sender: GroupMember
   messageChain: MessageChain[]
 }
 
 export interface TempMessage {
   type: 'TempMessage'
-  sender: GroupMessageSender
+  sender: GroupMember
   messageChain: MessageChain[]
 }
 
 export interface StrangerMessage {
   type: 'StrangerMessage'
-  sender: Sender
+  sender: Friend
   messageChain: MessageChain[]
 }
 
