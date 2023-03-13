@@ -59,3 +59,8 @@ export type MemberProfile = Profile
  * 此接口获取获取QQ用户资料
  */
 export type UserProfile = Profile
+
+export interface ApiMessage<T = any> {
+  syncId: number
+  data: T
+}

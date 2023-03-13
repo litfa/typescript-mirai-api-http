@@ -1,10 +1,25 @@
 import WebSocket from 'ws'
 import type { MessageChain } from './types/MessageChainType'
 import type { Message } from './types/MessageType'
+import type { Event } from './types/EventType'
+import type {
+  ApiMessage,
+  FriendList,
+  GroupList,
+  MemberList,
+  LatestMemberList,
+  BotProfile,
+  FriendProfile,
+  MemberProfile,
+  UserProfile
+} from './types/ApiData'
 import type * as MessageChainType from './types/MessageChainType'
 import type * as CommonType from './types/Common'
 import type * as MessageType from './types/MessageType'
+import type * as EventType from './types/EventType'
+import * as ApiDataType from './types/ApiData'
 import { EventBus } from './utils/eventBus'
+import { randomId } from './utils/utils'
 
 const CreateMiraiApi = (
   host: string,
@@ -14,7 +29,7 @@ const CreateMiraiApi = (
   retryInterval: number | false = 5000
 ) => {
   const { emit, on } = EventBus()
-  type Data = { syncId: number; data: Message }
+  type Data = { syncId: number; data: Message | Event }
   let ws: WebSocket
   // 连接 ws
   const connect = () => {
@@ -111,7 +126,7 @@ const CreateMiraiApi = (
   }
 
   // bot消息事件
-  const onMessage = (callback: Callback<Data>) => {
+  const onMessage = <T = Data>(callback: Callback<T>) => {
     on('message', (message) => {
       try {
         callback(JSON.parse(message.data))
@@ -246,4 +261,4 @@ const CreateMiraiApi = (
 }
 
 export { CreateMiraiApi }
-export type { MessageChainType, MessageType, CommonType, ApiDataType }
+export type { MessageChainType, MessageType, CommonType, ApiDataType, EventType }
