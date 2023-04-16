@@ -52,8 +52,8 @@ export interface GroupSyncMessage {
   type: 'GroupSyncMessage'
   subject: {
     id: number
-    nickname: string
-    remark: string
+    name: string
+    permission: string
   }
   messageChain: MessageChain[]
 }

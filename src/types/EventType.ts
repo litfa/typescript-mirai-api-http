@@ -4,13 +4,15 @@ import type { Friend, Group, GroupMember } from './Common'
  * Bot登录成功
  */
 export interface BotOnlineEvent {
-  type: 'BotOnlineEvent'
+  type: 'BotOnlineEvent',
+  qq: number
 }
 /**
  * Bot主动离线
- */
+*/
 export interface BotOfflineEventActive {
   type: 'BotOfflineEventActive'
+  qq: number
 }
 /**
  * Bot被挤下线
@@ -138,6 +140,9 @@ export interface NudgeEvent {
     id: number
     kind: 'Group' | 'Friend'
   }
+  action: string
+  suffix: string
+  target: number
 }
 /**
  * 某个群名改变
@@ -205,7 +210,7 @@ export interface GroupAllowMemberInviteEvent {
 export interface MemberJoinEvent {
   type: 'MemberJoinEvent'
   member: GroupMember
-  invitor: null
+  invitor: null | GroupMember
 }
 /**
  * 成员被踢出群（该成员不是Bot）
