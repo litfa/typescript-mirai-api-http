@@ -18,8 +18,9 @@ import type * as CommonType from './types/Common'
 import type * as MessageType from './types/MessageType'
 import type * as EventType from './types/EventType'
 import * as ApiDataType from './types/ApiData'
-import { EventBus } from './utils/eventBus'
+import { emit, on } from './utils/eventBus'
 import { randomId } from './utils/utils'
+import { close, error, message, open } from './apis/wsEvent'
 
 const CreateMiraiApi = (
   host: string,
@@ -28,7 +29,6 @@ const CreateMiraiApi = (
   qq: number,
   retryInterval: number | false = 5000
 ) => {
-  const { emit, on } = EventBus()
   type Data = { syncId: number; data: Message | Event }
   let ws: WebSocket
   // 连接 ws
@@ -102,28 +102,6 @@ const CreateMiraiApi = (
   }
 
   type Callback<T> = (data: T) => void
-
-  // ws事件
-  const close = (callback: Callback<WebSocket.CloseEvent>) => {
-    on('close', (data) => {
-      callback(data)
-    })
-  }
-  const error = (callback: Callback<WebSocket.ErrorEvent>) => {
-    on('error', (data) => {
-      callback(data)
-    })
-  }
-  const message = (callback: Callback<WebSocket.MessageEvent>) => {
-    on('message', (data) => {
-      callback(data)
-    })
-  }
-  const open = (callback: Callback<WebSocket.Event>) => {
-    on('open', (data) => {
-      callback(data)
-    })
-  }
 
   // bot消息事件
   const onMessage = <T = Data>(callback: Callback<T>) => {
