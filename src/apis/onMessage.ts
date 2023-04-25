@@ -1,8 +1,8 @@
 import { on } from '../utils/eventBus'
-import type { Message } from '../types/MessageType'
+import type { FriendMessage, GroupMessage, Message } from '../types/MessageType'
 
 // bot消息事件
-type Data = { syncId: number; data: Message }
+type Data<T = Message> = { syncId: number; data: T }
 type Callback<T> = (data: T) => void
 
 export const onMessage = <T = Data>(callback: Callback<T>) => {
@@ -15,8 +15,11 @@ export const onMessage = <T = Data>(callback: Callback<T>) => {
   })
 }
 
-export const onGroupMessage = (data: (data: Data) => void, group?: number) => {
-  onMessage((message) => {
+export const onGroupMessage = (
+  data: (data: Data<GroupMessage>) => void,
+  group?: number
+) => {
+  onMessage<Data<GroupMessage>>((message) => {
     if (message.data.type == 'GroupMessage') {
       if (group) {
         if (group == message.data.sender.group.id) {
@@ -29,8 +32,11 @@ export const onGroupMessage = (data: (data: Data) => void, group?: number) => {
   })
 }
 
-export const onFriendMessage = (data: (data: Data) => void, qq?: number) => {
-  onMessage((message) => {
+export const onFriendMessage = (
+  data: (data: Data<FriendMessage>) => void,
+  qq?: number
+) => {
+  onMessage<Data<FriendMessage>>((message) => {
     if (message.data.type == 'FriendMessage') {
       if (qq) {
         if (message.data.sender.id == qq) {
