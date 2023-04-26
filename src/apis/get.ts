@@ -13,12 +13,17 @@ import type {
   UserProfile
 } from '../types/ApiData'
 
-export const getApi = <T>(command: string, content?: object): Promise<T> => {
+export const getApi = <T>(
+  command: string,
+  subCommand: string | null,
+  content?: object
+): Promise<T> => {
   return new Promise((resolve) => {
     const id = randomId()
     send({
       syncId: id,
       command,
+      subCommand,
       content
     })
     onMessage<any>((data) => {
@@ -32,16 +37,16 @@ export const getApi = <T>(command: string, content?: object): Promise<T> => {
 /**
  * 获取好友列表
  */
-export const getFriendList = () => getApi<ApiMessage<FriendList>>('friendList')
+export const getFriendList = () => getApi<ApiMessage<FriendList>>('friendList', null)
 /**
  * 获取群列表
  */
-export const getGroupList = () => getApi<ApiMessage<GroupList>>('groupList')
+export const getGroupList = () => getApi<ApiMessage<GroupList>>('groupList', null)
 /**
  * 获取群成员列表
  */
 export const getMemberList = (target: number) => {
-  return getApi<ApiMessage<MemberList>>('memberList', {
+  return getApi<ApiMessage<MemberList>>('memberList', null, {
     target
   })
 }
@@ -49,7 +54,7 @@ export const getMemberList = (target: number) => {
  * 获取最新群成员列表
  */
 export const getLatestMemberList = (target: number, memberIds: number[] = []) => {
-  return getApi<ApiMessage<LatestMemberList>>('latestMemberList', {
+  return getApi<ApiMessage<LatestMemberList>>('latestMemberList', null, {
     target,
     memberIds
   })
@@ -58,13 +63,13 @@ export const getLatestMemberList = (target: number, memberIds: number[] = []) =>
  * 获取Bot资料
  */
 export const getBotProfile = () => {
-  return getApi<ApiMessage<BotProfile>>('botProfile')
+  return getApi<ApiMessage<BotProfile>>('botProfile', null)
 }
 /**
  * 获取好友资料
  */
 export const getFriendProfile = (target: number) => {
-  return getApi<ApiMessage<FriendProfile>>('friendProfile', {
+  return getApi<ApiMessage<FriendProfile>>('friendProfile', null, {
     target
   })
 }
@@ -72,7 +77,7 @@ export const getFriendProfile = (target: number) => {
  * 获取群成员资料
  */
 export const getMemberProfile = (target: number, memberId: number) => {
-  return getApi<ApiMessage<MemberProfile>>('memberProfile', {
+  return getApi<ApiMessage<MemberProfile>>('memberProfile', null, {
     target,
     memberId
   })
@@ -81,7 +86,7 @@ export const getMemberProfile = (target: number, memberId: number) => {
  * 获取QQ用户资料
  */
 export const getUserProfile = (target: number) => {
-  return getApi<ApiMessage<UserProfile>>('userProfile', {
+  return getApi<ApiMessage<UserProfile>>('userProfile', null, {
     target
   })
 }

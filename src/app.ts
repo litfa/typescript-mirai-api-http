@@ -19,6 +19,7 @@ import {
   getMemberProfile,
   getUserProfile
 } from './apis/get'
+import * as groupManagement from './apis/groupManagement'
 
 const CreateMiraiApi = (
   host: string,
@@ -86,7 +87,8 @@ const CreateMiraiApi = (
     getBotProfile,
     getFriendProfile,
     getMemberProfile,
-    getUserProfile
+    getUserProfile,
+    ...groupManagement
   }
 }
 

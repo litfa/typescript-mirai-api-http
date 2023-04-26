@@ -64,3 +64,13 @@ export interface ApiMessage<T = any> {
   syncId: number
   data: T
 }
+
+export interface GroupConfig {
+  name?: string
+  announcement?: string
+  confessTalk?: boolean
+  allowMemberInvite?: boolean
+  autoApprove?: boolean
+  anonymousChat?: boolean
+  muteAll?: boolean
+}
