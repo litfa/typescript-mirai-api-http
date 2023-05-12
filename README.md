@@ -81,3 +81,9 @@ ws.send(JSON.stringify({
   // 内容
 }))
 ```
+### 销毁实例
+```js
+// ...省略初始化
+const { destroy } = Mirai
+destroy()
+```

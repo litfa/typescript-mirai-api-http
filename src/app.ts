@@ -67,6 +67,11 @@ const CreateMiraiApi = (
     }
   })
 
+  const destroy = () => {
+    retryInterval = false
+    ws.close()
+  }
+
   return {
     ws,
     send,
@@ -88,7 +93,8 @@ const CreateMiraiApi = (
     getFriendProfile,
     getMemberProfile,
     getUserProfile,
-    ...groupManagement
+    ...groupManagement,
+    destroy
   }
 }
 
