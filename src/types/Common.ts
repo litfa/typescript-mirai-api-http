@@ -50,3 +50,9 @@ export interface Profile {
   sign: string;
   sex: string;
 }
+
+export interface SendMessageOption {
+  syncId?: number
+  quote?: number
+  [name: string]: any
+}
